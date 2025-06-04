@@ -1,0 +1,50 @@
+{
+  "name": "sosupp/questionable",
+  "description": "A package to implement quzzing and polling into your app to enhance user engagement",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Sosupp\\Questionable\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Sosupp\\SlimDashboard\\Tests\\": "tests"
+    }
+  },
+  "authors": [
+    {
+      "name": "Prosper Sosu"
+    }
+  ],
+  "require": {
+    "php": "^7.4|^8.0|^8.1|^8.2|^8.3",
+    "illuminate/support": "^10.0|^11.0|^12.0",
+    "livewire/livewire": "^2.0|^3.0",
+    "intervention/image": "^2.7"
+  },
+  "require-dev": {
+    "orchestra/canvas": "^8.11",
+    "orchestra/testbench": "^8.0",
+    "phpunit/phpunit": "^10.1"
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit",
+    "pa": "vendor/bin/canvas",
+    "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Sosupp\\Questionable\\QuestionableServiceProvider"
+      ],
+      "aliases": {
+        "Questionable": "Sosupp\\Questionable\\QuestionableFacade"
+      }
+    }
+  }
+}

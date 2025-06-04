@@ -1,0 +1,27 @@
+preset: package
+
+namespace: Sosupp\Questionable
+user-auth-model: Src\Models\User
+
+paths:
+  src: src
+  resource: resources
+
+factory:
+  path: database/factories
+
+migration:
+  path: database/migrations
+  prefix: ''
+
+console:
+  namespace: Sosupp\Questionable\Console
+
+model:
+  namespace: Sosupp\Questionable\Models
+
+provider:
+  namespace: Sosupp\Questionable\Providers
+
+testing:
+  namespace: Sosupp\Questionable\Tests
