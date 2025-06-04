@@ -17,9 +17,9 @@ class QuestionableServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
-        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'questionable');
-        $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'questionable');
+        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         
         Livewire::component('questionable::question-bank-manager', QuestionBankManager::class);
         Livewire::component('questionable::quiz-manager', QuizManager::class);
@@ -32,16 +32,16 @@ class QuestionableServiceProvider extends ServiceProvider
         Livewire::component('questionable::exam-taker', ExamTaker::class);
         
         $this->publishes([
-            __DIR__.'/../../config/questionable.php' => config_path('questionable.php'),
-            __DIR__.'/../../resources/views' => resource_path('views/vendor/questionable'),
-            __DIR__.'/../../resources/assets' => public_path('vendor/questionable'),
+            __DIR__.'/../config/questionable.php' => config_path('questionable.php'),
+            __DIR__.'/../resources/views' => resource_path('views/vendor/questionable'),
+            __DIR__.'/../resources/assets' => public_path('vendor/questionable'),
         ], 'questionable');
     }
 
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../../config/questionable.php', 'questionable'
+            __DIR__.'/../config/questionable.php', 'questionable'
         );
         
         $this->app->bind('questionable', function() {
