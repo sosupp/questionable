@@ -3,7 +3,15 @@ namespace Sosupp\Questionable\Providers;
 
 use Livewire\Livewire;
 use Illuminate\Support\ServiceProvider;
-use Sosupp\Questionable\Http\Livewire\QuestionBankManager;
+use Sosupp\Questionable\Facades\Questionables;
+use Sosupp\Questionable\Livewire\Exams\ExamManager;
+use Sosupp\Questionable\Livewire\Exams\ExamTaker;
+use Sosupp\Questionable\Livewire\Polls\PollManager;
+use Sosupp\Questionable\Livewire\Polls\PollTaker;
+use Sosupp\Questionable\Livewire\QuestionBankManager;
+use Sosupp\Questionable\Livewire\Quizzes\QuizList;
+use Sosupp\Questionable\Livewire\Quizzes\QuizManager;
+use Sosupp\Questionable\Livewire\Quizzes\QuizTaker;
 
 class QuestionableServiceProdvider extends ServiceProvider
 {
@@ -15,7 +23,13 @@ class QuestionableServiceProdvider extends ServiceProvider
         
         Livewire::component('questionable::question-bank-manager', QuestionBankManager::class);
         Livewire::component('questionable::quiz-manager', QuizManager::class);
+        Livewire::component('questionable::quiz-taker', QuizTaker::class);
+        Livewire::component('questionable::quiz-list', QuizList::class);
         Livewire::component('questionable::poll-manager', PollManager::class);
+        Livewire::component('questionable::poll-taker', PollTaker::class);
+        // Livewire::component('questionable::poll-list', PollList::class);
+        Livewire::component('questionable::exam-manager', ExamManager::class);
+        Livewire::component('questionable::exam-taker', ExamTaker::class);
         
         $this->publishes([
             __DIR__.'/../../config/questionable.php' => config_path('questionable.php'),

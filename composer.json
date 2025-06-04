@@ -1,6 +1,6 @@
 {
   "name": "sosupp/questionable",
-  "description": "A package to implement quzzing and polling into your app to enhance user engagement",
+  "description": "A laravel flexible and extensible package for adding extra functionality such as Quizzes, Polls, Exams, Mock Practice, etc. to your application or website to enhance user intereaction. Anything that you can imagine to do with a set of question bank.",
   "type": "library",
   "license": "MIT",
   "autoload": {

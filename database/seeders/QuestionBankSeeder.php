@@ -13,7 +13,7 @@ class QuestionBankSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::first();
+        $user = \App\Models\User::first();
 
         $banks = [
             [
