@@ -1,5 +1,5 @@
 <?php
-namespace Sosupp\Questionable\Providers;
+namespace Sosupp\Questionable;
 
 use Livewire\Livewire;
 use Illuminate\Support\ServiceProvider;
@@ -13,7 +13,7 @@ use Sosupp\Questionable\Livewire\Quizzes\QuizList;
 use Sosupp\Questionable\Livewire\Quizzes\QuizManager;
 use Sosupp\Questionable\Livewire\Quizzes\QuizTaker;
 
-class QuestionableServiceProdvider extends ServiceProvider
+class QuestionableServiceProvider extends ServiceProvider
 {
     public function boot()
     {
