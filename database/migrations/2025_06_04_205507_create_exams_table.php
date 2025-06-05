@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique()->nullable();
             $table->text('description')->nullable();
-            $table->integer('total_time')->comment('Total duration in minutes');
+            $table->integer('total_time');
             $table->integer('passing_score')->nullable();
             $table->integer('max_attempts')->default(1);
             $table->boolean('shuffle_sections')->default(false);

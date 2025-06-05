@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->nullable();
             $table->text('description')->nullable();
-            $table->integer('time_limit')->nullable()->comment('In minutes');
+            $table->integer('time_limit')->nullable();
             $table->boolean('is_active')->default(true);
             $table->boolean('shuffle_questions')->default(false);
             $table->boolean('shuffle_options')->default(false);

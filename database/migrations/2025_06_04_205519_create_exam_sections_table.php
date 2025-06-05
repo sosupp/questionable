@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique()->nullable();
             $table->text('description')->nullable();
-            $table->integer('time_limit')->nullable()->comment('Section time limit in minutes');
+            $table->integer('time_limit')->nullable();
             $table->integer('order')->default(0);
             $table->timestamps();
         });

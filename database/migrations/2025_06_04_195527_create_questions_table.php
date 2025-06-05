@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreignId('subject_id')->nullable();
             $table->foreignId('academic_level_id')->nullable();
             $table->foreignId('year_id')->nullable();
-            $table->integer('difficulty_level')->nullable()->comment('1-5 scale');
+            $table->integer('difficulty_level')->nullable();
             $table->string('topic')->nullable();
             $table->softDeletes();
             $table->timestamps();
