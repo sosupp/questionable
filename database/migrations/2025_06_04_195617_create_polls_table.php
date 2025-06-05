@@ -11,18 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('polls', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('year_id')->nullable();
-            $table->string('title');
-            $table->string('slug')->nullable();
-            $table->text('description')->nullable();
-            $table->boolean('is_anonymous')->default(false);
-            $table->boolean('is_active')->default(true);
-            $table->timestamp('starts_at')->nullable();
-            $table->timestamp('ends_at')->nullable();
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('polls')){
+            Schema::create('polls', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('year_id')->nullable();
+                $table->string('title');
+                $table->string('slug')->nullable();
+                $table->text('description')->nullable();
+                $table->boolean('is_anonymous')->default(false);
+                $table->boolean('is_active')->default(true);
+                $table->timestamp('starts_at')->nullable();
+                $table->timestamp('ends_at')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**
