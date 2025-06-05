@@ -19,9 +19,9 @@ return new class extends Migration
             $table->json('metadata')->nullable(); // For additional configurations
             $table->integer('points')->default(1);
             $table->boolean('is_active')->default(true);
-            $table->foreignId('subject_id')->nullable()->constrained('subjects')->onDelete('set null');
-            $table->foreignId('academic_level_id')->nullable()->constrained('academic_levels')->onDelete('set null');
-            $table->foreignId('year_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('subject_id')->nullable();
+            $table->foreignId('academic_level_id')->nullable();
+            $table->foreignId('year_id')->nullable();
             $table->integer('difficulty_level')->nullable()->comment('1-5 scale');
             $table->string('topic')->nullable();
             $table->softDeletes();
