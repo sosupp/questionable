@@ -11,16 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attempts', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade')->nullable();
-            $table->foreignId('visitor_id')->constrained()->onDelete('cascade')->nullable();
-            $table->morphs('attemptable'); // quiz or poll
-            $table->timestamp('started_at')->useCurrent();
-            $table->timestamp('completed_at')->nullable();
-            $table->json('metadata')->nullable();
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('attempts')){
+            Schema::create('attempts', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('user_id')->constrained()->onDelete('cascade')->nullable();
+                $table->foreignId('visitor_id')->constrained()->onDelete('cascade')->nullable();
+                $table->morphs('attemptable'); // quiz or poll
+                $table->timestamp('started_at')->useCurrent();
+                $table->timestamp('completed_at')->nullable();
+                $table->json('metadata')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

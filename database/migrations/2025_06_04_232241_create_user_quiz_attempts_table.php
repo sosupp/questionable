@@ -11,16 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_quiz_attempts', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('quiz_id')->constrained()->onDelete('cascade');
-            $table->timestamp('started_at')->useCurrent();
-            $table->timestamp('completed_at')->nullable();
-            $table->integer('score')->nullable();
-            $table->integer('total_questions')->nullable();
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('user_quiz_attempts')){
+            Schema::create('user_quiz_attempts', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('user_id')->constrained()->onDelete('cascade');
+                $table->foreignId('quiz_id')->constrained()->onDelete('cascade');
+                $table->timestamp('started_at')->useCurrent();
+                $table->timestamp('completed_at')->nullable();
+                $table->integer('score')->nullable();
+                $table->integer('total_questions')->nullable();
+                $table->timestamps();
+            });
+        }
+
     }
 
     /**

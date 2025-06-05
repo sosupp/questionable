@@ -11,16 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exam_sections', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('exam_id')->constrained()->onDelete('cascade');
-            $table->string('title');
-            $table->string('slug')->unique()->nullable();
-            $table->text('description')->nullable();
-            $table->integer('time_limit')->nullable();
-            $table->integer('order')->default(0);
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('exam_sections')){
+            Schema::create('exam_sections', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('exam_id')->constrained()->onDelete('cascade');
+                $table->string('title');
+                $table->string('slug')->unique()->nullable();
+                $table->text('description')->nullable();
+                $table->integer('time_limit')->nullable();
+                $table->integer('order')->default(0);
+                $table->timestamps();
+            });
+        }
+
     }
 
     /**

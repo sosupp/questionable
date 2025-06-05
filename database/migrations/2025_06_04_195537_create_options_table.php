@@ -11,15 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('options', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('question_id')->constrained()->onDelete('cascade');
-            $table->text('option_text');
-            $table->boolean('is_correct')->default(false);
-            $table->json('metadata')->nullable(); // For additional data like image URLs
-            $table->integer('order')->default(0);
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('options')){
+            Schema::create('options', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('question_id')->constrained()->onDelete('cascade');
+                $table->text('option_text');
+                $table->boolean('is_correct')->default(false);
+                $table->json('metadata')->nullable(); // For additional data like image URLs
+                $table->integer('order')->default(0);
+                $table->timestamps();
+            });
+        }
+
     }
 
     /**

@@ -11,24 +11,26 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exams', function (Blueprint $table) {
-            $$table->id();
-            $table->string('title');
-            $table->string('slug')->unique()->nullable();
-            $table->text('description')->nullable();
-            $table->integer('total_time');
-            $table->integer('passing_score')->nullable();
-            $table->integer('max_attempts')->default(1);
-            $table->boolean('shuffle_sections')->default(false);
-            $table->boolean('shuffle_questions')->default(false);
-            $table->boolean('shuffle_options')->default(false);
-            $table->boolean('require_proctoring')->default(false);
-            $table->boolean('show_score_after')->default(false);
-            $table->boolean('show_answers_after')->default(false);
-            $table->timestamp('available_from')->nullable();
-            $table->timestamp('available_to')->nullable();
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('exams')){
+            Schema::create('exams', function (Blueprint $table) {
+                $table->id();
+                $table->string('title');
+                $table->string('slug')->unique()->nullable();
+                $table->text('description')->nullable();
+                $table->integer('total_time');
+                $table->integer('passing_score')->nullable();
+                $table->integer('max_attempts')->default(1);
+                $table->boolean('shuffle_sections')->default(false);
+                $table->boolean('shuffle_questions')->default(false);
+                $table->boolean('shuffle_options')->default(false);
+                $table->boolean('require_proctoring')->default(false);
+                $table->boolean('show_score_after')->default(false);
+                $table->boolean('show_answers_after')->default(false);
+                $table->timestamp('available_from')->nullable();
+                $table->timestamp('available_to')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

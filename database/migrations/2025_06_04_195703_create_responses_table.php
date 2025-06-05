@@ -11,16 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('responses', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('attempt_id')->constrained()->onDelete('cascade');
-            $table->foreignId('question_id')->constrained()->onDelete('cascade');
-            $table->foreignId('option_id')->nullable()->constrained()->onDelete('cascade');
-            $table->text('answer_text')->nullable();
-            $table->boolean('is_correct')->default(false);
-            $table->integer('points_earned')->default(0);
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('responses')){
+            Schema::create('responses', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('attempt_id')->constrained()->onDelete('cascade');
+                $table->foreignId('question_id')->constrained()->onDelete('cascade');
+                $table->foreignId('option_id')->nullable()->constrained()->onDelete('cascade');
+                $table->text('answer_text')->nullable();
+                $table->boolean('is_correct')->default(false);
+                $table->integer('points_earned')->default(0);
+                $table->timestamps();
+            });
+        }
+        
     }
 
     /**

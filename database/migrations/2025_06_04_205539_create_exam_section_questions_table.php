@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exam_section_questions', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('exam_section_id')->constrained()->onDelete('cascade');
-            $table->foreignId('question_id')->constrained()->onDelete('cascade');
-            $table->integer('order')->default(0);
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('exam_section_questions')){
+            Schema::create('exam_section_questions', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('exam_section_id')->constrained()->onDelete('cascade');
+                $table->foreignId('question_id')->constrained()->onDelete('cascade');
+                $table->integer('order')->default(0);
+                $table->timestamps();
+            });
+        }
+
     }
 
     /**

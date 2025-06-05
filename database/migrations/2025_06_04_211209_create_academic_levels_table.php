@@ -11,14 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('academic_levels', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique(); // e.g., "Primary 1", "Grade 10", "University Level"
-            $table->string('slug')->unique()->nullable();
-            $table->string('code')->unique()->nullable();
-            $table->integer('order')->default(0);
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('academic_levels')){
+            Schema::create('academic_levels', function (Blueprint $table) {
+                $table->id();
+                $table->string('name')->unique(); // e.g., "Primary 1", "Grade 10", "University Level"
+                $table->string('slug')->unique()->nullable();
+                $table->string('code')->unique()->nullable();
+                $table->integer('order')->default(0);
+                $table->timestamps();
+            });
+        }
+
     }
 
     /**

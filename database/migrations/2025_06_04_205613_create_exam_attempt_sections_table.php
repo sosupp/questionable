@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exam_attempt_sections', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('attempt_id')->constrained('exam_attempts')->onDelete('cascade');
-            $table->foreignId('exam_section_id')->constrained()->onDelete('cascade');
-            $table->timestamp('started_at')->useCurrent();
-            $table->timestamp('completed_at')->nullable();
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('exam_attempt_sections')){
+            Schema::create('exam_attempt_sections', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('attempt_id')->constrained('exam_attempts')->onDelete('cascade');
+                $table->foreignId('exam_section_id')->constrained()->onDelete('cascade');
+                $table->timestamp('started_at')->useCurrent();
+                $table->timestamp('completed_at')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

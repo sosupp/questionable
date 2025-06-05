@@ -11,15 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('question_metadata', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('question_id')->constrained()->onDelete('cascade');
-            $table->string('key');
-            $table->text('value')->nullable();
-            $table->timestamps();
-            
-            $table->unique(['question_id', 'key']);
-        });
+        if(!Schema::hasTable('question_metadata')){
+            Schema::create('question_metadata', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('question_id')->constrained()->onDelete('cascade');
+                $table->string('key');
+                $table->text('value')->nullable();
+                $table->timestamps();
+                
+                $table->unique(['question_id', 'key']);
+            });
+        }
+        
     }
 
     /**

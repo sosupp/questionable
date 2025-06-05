@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('question_banks', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('slug')->unique()->nullable();
-            $table->text('description')->nullable();
-            $table->morphs('owner'); // Can be owned by users, teams, etc.
-            $table->softDeletes();
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('question_banks')){
+            Schema::create('question_banks', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->string('slug')->unique()->nullable();
+                $table->text('description')->nullable();
+                $table->morphs('owner'); // Can be owned by users, teams, etc.
+                $table->softDeletes();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

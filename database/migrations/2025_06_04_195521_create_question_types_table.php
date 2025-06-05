@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('question_types', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique(); // multiple_choice, true_false, short_answer, rating_scale, etc.
-            $table->string('slug')->unique();
-            $table->text('description')->nullable();
-            $table->softDeletes();
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('question_types')){
+            Schema::create('question_types', function (Blueprint $table) {
+                $table->id();
+                $table->string('name')->unique(); // multiple_choice, true_false, short_answer, rating_scale, etc.
+                $table->string('slug')->unique();
+                $table->text('description')->nullable();
+                $table->softDeletes();
+                $table->timestamps();
+            });
+        }
     }
 
     /**
