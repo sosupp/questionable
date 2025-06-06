@@ -3,6 +3,7 @@
 namespace Sosupp\Questionable\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Sosupp\Questionable\Traits\HasQuestions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class QuestionBank extends Model
@@ -14,6 +15,11 @@ class QuestionBank extends Model
     public function owner()
     {
         return $this->morphTo();
+    }
+
+    public function getTotalQuestionsAttribute()
+    {
+        return $this->questions()->count();
     }
 
 }

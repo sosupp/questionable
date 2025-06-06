@@ -29,11 +29,19 @@ class AcademicDataSeeder extends Seeder
             ['name' => 'Economics', 'code' => 'ECON'],
             ['name' => 'Business Studies', 'code' => 'BUS']
         ];
-        
+
         foreach ($subjects as $subject) {
-            Subject::create($subject);
+            Subject::updateOrCreate(
+                [
+                    'slug' => str($subject['name'])->slug()->value(),
+                ],
+                [
+                    'name' => $subject['name'],
+                    'code' => $subject['code'],
+                ]
+            );
         }
-        
+
         // Academic Levels
         $levels = [
             ['name' => 'Primary 1', 'code' => 'P1', 'order' => 1],
@@ -53,24 +61,31 @@ class AcademicDataSeeder extends Seeder
         ];
 
         foreach ($levels as $level) {
-            AcademicLevel::create($level);
+            AcademicLevel::query()->updateOrCreate(
+                [
+                    'name' => $level['name']
+                ],
+                [
+                    'slug' => str($level['name'])->slug()->value(),
+                    'code' => $level['code'],
+                    'order' => $level['order'],
+                ]
+            );
         }
-        
+
         // Years
+        $years = ['2025', '2026', '2027', '2028', '2029', '2030'];
         $currentYear = date('Y');
-        Year::create([
-            'name' => $currentYear,
-            'start_year' => $currentYear,
-            'is_current' => true
-        ]);
-        
-        for ($i = 1; $i <= 5; $i++) {
-            $year = $currentYear - $i;
-            Year::create([
-                'name' => $year,
-                'start_year' => $year
-            ]);
+        foreach($years as $year){
+            Year::updateOrCreate(
+                [
+                    'name' => $year
+                ],
+                [
+                    'is_current' => $year == $currentYear ? true : false
+                ]
+            );
         }
     }
-    
+
 }

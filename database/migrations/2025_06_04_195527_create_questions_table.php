@@ -15,7 +15,7 @@ return new class extends Migration
             Schema::create('questions', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('question_bank_id')->constrained()->onDelete('cascade');
-                $table->foreignId('question_type_id')->constrained();
+                $table->foreignId('question_type_id')->constrained()->onDelete('cascade');
                 $table->text('question_text');
                 $table->json('metadata')->nullable(); // For additional configurations
                 $table->integer('points')->default(1);
