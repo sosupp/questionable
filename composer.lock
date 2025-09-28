@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5505759d43b7f9cb3b960784e6bf4155",
+    "content-hash": "cb79b1b4f9ac4195b87e430ef7fe9741",
     "packages": [
         {
             "name": "brick/math",
@@ -2784,6 +2784,73 @@
                 "source": "https://github.com/ramsey/uuid/tree/4.8.1"
             },
             "time": "2025-06-01T06:28:46+00:00"
+        },
+        {
+            "name": "sosupp/slim-dashboard",
+            "version": "v1.31.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sosupp/slim-dashboard.git",
+                "reference": "70c8ff5e7575b877ab996b58a62138b8bd17dc34"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sosupp/slim-dashboard/zipball/70c8ff5e7575b877ab996b58a62138b8bd17dc34",
+                "reference": "70c8ff5e7575b877ab996b58a62138b8bd17dc34",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^10.0|^11.0|^12.0",
+                "intervention/image": "^2.7",
+                "livewire/livewire": "^3.5",
+                "php": "^7.4|^8.0|^8.1|^8.2|^8.3"
+            },
+            "require-dev": {
+                "orchestra/canvas": "^8.11",
+                "orchestra/testbench": "^8.0",
+                "phpunit/phpunit": "^10.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "SlimDashboard": "Sosupp\\SlimDashboard\\SlimDashboardFacade"
+                    },
+                    "providers": [
+                        "Sosupp\\SlimDashboard\\SlimDashboardServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Sosupp\\SlimDashboard\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Prosper Sosu",
+                    "email": "prospersosu@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple laravel dashboard that feels lightweight made more dynamic with easy interactions with livewire and alpinejs.",
+            "homepage": "https://github.com/sosupp/slim-dashboard",
+            "keywords": [
+                "slim-dashboard",
+                "sosupp"
+            ],
+            "support": {
+                "issues": "https://github.com/sosupp/slim-dashboard/issues",
+                "source": "https://github.com/sosupp/slim-dashboard/tree/v1.31.1"
+            },
+            "time": "2025-06-03T15:50:58+00:00"
         },
         {
             "name": "symfony/console",

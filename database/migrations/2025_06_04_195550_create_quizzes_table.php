@@ -14,6 +14,13 @@ return new class extends Migration
         if(!Schema::hasTable('quizzes')){
             Schema::create('quizzes', function (Blueprint $table) {
                 $table->id();
+                $table->foreignId('year_id')->nullable();
+                // Polymorphic fields (non-nullable)
+                $table->unsignedBigInteger('quizzable_id');
+                $table->string('quizzable_type');
+                
+                $table->string('code')->unique();
+                $table->string('version')->nullable();
                 $table->string('title');
                 $table->string('slug')->nullable();
                 $table->text('description')->nullable();

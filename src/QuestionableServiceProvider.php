@@ -4,14 +4,16 @@ namespace Sosupp\Questionable;
 use Livewire\Livewire;
 use Illuminate\Support\ServiceProvider;
 use Sosupp\Questionable\Facades\Questionables;
-use Sosupp\Questionable\Livewire\Exams\ExamManager;
 use Sosupp\Questionable\Livewire\Exams\ExamTaker;
-use Sosupp\Questionable\Livewire\Polls\PollManager;
 use Sosupp\Questionable\Livewire\Polls\PollTaker;
-use Sosupp\Questionable\Livewire\QuestionBankManager;
 use Sosupp\Questionable\Livewire\Quizzes\QuizList;
-use Sosupp\Questionable\Livewire\Quizzes\QuizManager;
+use Sosupp\Questionable\Livewire\Exams\ExamManager;
+use Sosupp\Questionable\Livewire\Polls\PollManager;
 use Sosupp\Questionable\Livewire\Quizzes\QuizTaker;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Sosupp\Questionable\Livewire\QuestionBankManager;
+use Sosupp\Questionable\Livewire\Quizzes\QuizManager;
+use Sosupp\Questionable\Models\GlobalQuiz;
 
 class QuestionableServiceProvider extends ServiceProvider
 {
@@ -36,6 +38,10 @@ class QuestionableServiceProvider extends ServiceProvider
             __DIR__.'/../resources/views' => resource_path('views/vendor/questionable'),
             __DIR__.'/../resources/assets' => public_path('vendor/questionable'),
         ], 'questionable');
+
+        Relation::morphMap([
+            'global' => GlobalQuiz::class,
+        ]);
     }
 
     public function register()

@@ -11,6 +11,7 @@ use Sosupp\Questionable\Models\Question;
 use Sosupp\Questionable\Enums\QuestionType;
 use Sosupp\Questionable\Models\AcademicLevel;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Sosupp\Questionable\Models\QuizQuestion;
 
 class AssessmentSeeder extends Seeder
 {
@@ -19,43 +20,64 @@ class AssessmentSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = App\Models\User::first();
+        $user = \App\Models\User::first();
         $mathQuestions = Question::whereHas('subject', function($q) {
             $q->where('code', 'MATH');
         })->get();
-        
+
         $scienceQuestions = Question::whereHas('subject', function($q) {
             $q->whereIn('code', ['PHY', 'CHEM', 'BIO']);
         })->get();
-        
+
         $sss1Level = AcademicLevel::where('code', 'S1')->first();
         $currentYear = Carbon::now()->year;
-        
+
+        $title = "Basic Math Quiz";
         // Create a Quiz
         $quiz = Quiz::create([
-            'title' => 'Basic Math Quiz',
+            'year_id' => 1,
+            'quizzable_id' => 1,
+            'quizzable_type' => 'global',
+            'code' => 'unique quiz',
+            'title' => $title,
+            'title' => str($title)->slug()->value(),
             'description' => 'A simple quiz to test basic math knowledge',
             'time_limit' => 30,
             'is_active' => true,
             'shuffle_questions' => true,
             'show_correct_answers' => true,
         ]);
-        
+
         // Attach math questions to the quiz
-        $quiz->questions()->attach(
-            $mathQuestions->where('academic_level_id', $sss1Level->id)
-                ->take(10)
-                ->pluck('id')
-                ->toArray()
-        );
+        foreach($mathQuestions as $question){
+            QuizQuestion::create([
+                'quiz_id' => $quiz->id,
+                'question_id' => $question->id,
+            ]);
+        }
+
+        // $quiz->questions()->saveMany(
+        //     $mathQuestions->where('academic_level_id', $sss1Level->id)
+        //         ->take(10)
+        //         ->pluck('id')
+        //         ->toArray()
+        // );
 
         // Create a Poll
-        $poll = Poll::create([
-            'title' => 'Student Learning Preferences',
-            'description' => 'Survey about how students prefer to learn',
-            'is_anonymous' => true,
-            'is_active' => true,
-        ]);
+        $poll = Poll::updateOrCreate(
+            [
+                'title' => 'Student Learning Preferences',
+            ],
+            [
+                'user_id' => 1,
+
+                'label' => 'Student Learning Preferences',
+                'description' => 'Survey about how students prefer to learn',
+                'is_anonymous' => true,
+                'is_active' => true,
+                'status' => 'active',
+            ]
+        );
 
         // Create poll questions (would need to add some poll-specific questions)
         $pollQuestions = [
@@ -76,8 +98,9 @@ class AssessmentSeeder extends Seeder
             $question = $poll->questions()->create([
                 'question_text' => $pollQuestionData['question_text'],
                 'question_type_id' => $pollQuestionData['question_type_id'],
+                'question_bank_id' => 1
             ]);
-            
+
             foreach ($pollQuestionData['options'] as $option) {
                 $question->options()->create([
                     'option_text' => $option['text'],
@@ -132,7 +155,7 @@ class AssessmentSeeder extends Seeder
                 'description' => $sectionData['description'],
                 'time_limit' => $sectionData['time_limit'],
             ]);
-            
+
             $section->questions()->attach($sectionData['questions']);
         }
 
@@ -181,7 +204,13 @@ class AssessmentSeeder extends Seeder
         ];
 
         foreach ($scienceExamSections as $section) {
-            $scienceExam->sections()->create($section);
+            $section = $scienceExam->sections()->create([
+                'title' => $sectionData['title'],
+                'description' => $sectionData['description'],
+                'time_limit' => $sectionData['time_limit'],
+            ]);
+
+            $section->questions()->attach($sectionData['questions']);
         }
 
 
