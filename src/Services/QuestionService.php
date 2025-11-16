@@ -2,10 +2,14 @@
 namespace Sosupp\Questionable\Services;
 
 use Sosupp\Questionable\Models\Question;
+use Sosupp\SlimDashboard\Concerns\Filters\CommonFilters;
+use Sosupp\SlimDashboard\Concerns\Filters\WithDateFormat;
 use Sosupp\SlimDashboard\Contracts\Crudable;
 
 class QuestionService implements Crudable
 {
+    use WithDateFormat, CommonFilters;
+    
     public function make(?int $id, array $data)
     {
         $question = Question::query()
@@ -73,7 +77,26 @@ class QuestionService implements Crudable
 
     public function list(?int $limit = null, array $cols = ['*']) { }
 
-    public function paginate(?int $limit = null, array $cols = ['*']) { }
+    public function paginate(?int $limit = null, array $cols = ['*']) 
+    { 
+        return Question::query()
+        ->where($this->statusCol, $this->status)
+        ->when(!empty($this->searchTerm), function($q){
+            $q->search($this->searchTerm);
+        })
+        ->with([
+            'subject',
+            'academicLevel',
+            'year',
+            'meta',
+            'questionBank',
+            'questionType',
+            'options',
+        ])
+        ->dated($this->selectedDate)
+        ->orderBy(column: $this->orderByColumn, direction: $this->orderByDirection)
+        ->paginate(perPage: $limit, columns: $cols);
+    }
 
     public function remove(int|string $id) { }
 
