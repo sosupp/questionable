@@ -10,17 +10,20 @@ class UserQuizResponse extends Model
     use HasFactory;
 
     protected $fillable = [
-        'attempt_id', 
-        'question_id', 
-        'option_id', 
-        'answer_text', 
-        'is_correct', 
+        'attempt_id',
+        'question_id',
+        'option_id',
+        'answer_text',
+        'is_correct',
         'points_earned'
     ];
 
     public function attempt()
     {
-        return $this->belongsTo(UserQuizAttempt::class);
+        return $this->belongsTo(
+            UserQuizAttempt::class,
+            'attempt_id'
+        );
     }
 
     public function question()

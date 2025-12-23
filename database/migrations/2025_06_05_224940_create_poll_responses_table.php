@@ -16,13 +16,15 @@ return new class extends Migration
                 $table->id();
                 $table->foreignId('poll_id')->constrained()->onDelete('cascade');
                 $table->foreignId('question_id')->constrained()->onDelete('cascade');
-                $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
+
+                $table->morphs('ownable'); // user, guest, visitor, etc.
+                
                 $table->foreignId('option_id')->nullable()->constrained('options')->onDelete('cascade');
                 $table->text('answer_text')->nullable();
                 $table->timestamps();
                 
                 // Composite index for faster queries
-                $table->index(['poll_id', 'user_id']);
+                $table->index(['poll_id', 'ownable_id', 'ownable_type']);
             });
         }
     }

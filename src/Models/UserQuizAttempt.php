@@ -2,21 +2,23 @@
 
 namespace Sosupp\Questionable\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class UserQuizAttempt extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'quiz_id', 'started_at', 
-        'completed_at', 'score', 'total_questions'
+        'quiz_id', 'started_at',
+        'completed_at', 'score', 'total_questions', 'question_id',
+        'ownable_id', 'ownable_type',
     ];
 
-    public function user()
+    public function ownable(): MorphTo
     {
-        return $this->belongsTo(\App\Models\User::class);
+        return $this->morphTo();
     }
 
     public function quiz()
@@ -26,7 +28,7 @@ class UserQuizAttempt extends Model
 
     public function responses()
     {
-        return $this->hasMany(UserQuizResponse::class);
+        return $this->hasMany(UserQuizResponse::class, 'attempt_id');
     }
 
 }

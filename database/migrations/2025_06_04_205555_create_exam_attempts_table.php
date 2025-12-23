@@ -14,8 +14,10 @@ return new class extends Migration
         if(!Schema::hasTable('exam_attempts')){
             Schema::create('exam_attempts', function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('user_id')->constrained()->onDelete('cascade');
                 $table->foreignId('exam_id')->constrained()->onDelete('cascade');
+                
+                $table->morphs('ownable'); // user, guest, visitor, etc.
+
                 $table->timestamp('started_at')->useCurrent();
                 $table->timestamp('completed_at')->nullable();
                 $table->integer('score')->nullable();

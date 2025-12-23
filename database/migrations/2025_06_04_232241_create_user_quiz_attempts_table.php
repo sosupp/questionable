@@ -14,8 +14,14 @@ return new class extends Migration
         if(!Schema::hasTable('user_quiz_attempts')){
             Schema::create('user_quiz_attempts', function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('user_id')->constrained()->onDelete('cascade');
-                $table->foreignId('quiz_id')->constrained()->onDelete('cascade');
+                $table->morphs('ownable'); // user, guest, visitor, etc.
+                
+                $table->foreignId('quiz_id')->constrained()
+                ->onDelete('cascade');
+                
+                $table->foreignId('question_id')->nullable()
+                ->constrained()->onDelete('cascade');
+
                 $table->timestamp('started_at')->useCurrent();
                 $table->timestamp('completed_at')->nullable();
                 $table->integer('score')->nullable();
@@ -23,7 +29,6 @@ return new class extends Migration
                 $table->timestamps();
             });
         }
-
     }
 
     /**

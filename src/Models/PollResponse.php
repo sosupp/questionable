@@ -1,8 +1,9 @@
 <?php
 namespace Sosupp\Questionable\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PollResponse extends Model
 {
@@ -26,9 +27,9 @@ class PollResponse extends Model
         return $this->belongsTo(Question::class);
     }
 
-    public function user()
+    public function ownable(): MorphTo
     {
-        return $this->belongsTo(\App\Models\User::class);
+        return $this->morphTo();
     }
 
     public function option()

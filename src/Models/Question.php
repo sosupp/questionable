@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Sosupp\SlimDashboard\Concerns\Filters\CommonScopes;
 
 class Question extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes, CommonScopes;
 
     protected $fillable = [
         'question_bank_id',
@@ -49,7 +51,7 @@ class Question extends Model
     {
         return $this->hasMany(QuestionMetadata::class);
     }
-    
+
     public function questionBank()
     {
         return $this->belongsTo(QuestionBank::class);
@@ -82,21 +84,28 @@ class Question extends Model
         return $query->where('is_active', true);
     }
 
+    public function scopeGeneral($query)
+    {
+        return $query->whereHas('questionBank', function ($q) {
+            $q->where('slug', 'general-knowledge-bank');
+        });
+    }
+
     public function scopeWithSubject($query, $subjectId)
     {
         return $query->where('subject_id', $subjectId);
     }
-    
+
     public function scopeWithAcademicLevel($query, $levelId)
     {
         return $query->where('academic_level_id', $levelId);
     }
-    
+
     public function scopeWithYear($query, $yearId)
     {
         return $query->where('year_id', $yearId);
     }
-    
+
     public function scopeWithDifficulty($query, $level)
     {
         return $query->where('difficulty_level', $level);
@@ -110,7 +119,7 @@ class Question extends Model
             'learning_objective' => null,
             'curriculum_reference' => null,
         ];
-        
+
         return array_merge($defaults, json_decode($value, true) ?? []);
     }
 }

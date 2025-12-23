@@ -2,22 +2,18 @@
 
 namespace Sosupp\Questionable\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ExamAttempt extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'exam_id',
-        'started_at',
-        'completed_at',
-        'score',
-        'total_score',
-        'passed',
-        'metadata',
+        'exam_id', 'started_at', 'completed_at',
+        'score', 'total_score', 'passed', 'metadata',
+        'ownable_id', 'ownable_type',
     ];
 
     protected $casts = [
@@ -26,9 +22,9 @@ class ExamAttempt extends Model
         'completed_at' => 'datetime',
     ];
 
-    public function user()
+    public function ownable(): MorphTo
     {
-        return $this->belongsTo(\App\Models\User::class);
+        return $this->morphTo();
     }
 
     public function exam()
