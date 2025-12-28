@@ -6,15 +6,24 @@ use Sosupp\Questionable\Models\QuestionBank;
 
 class QuestionBankService
 {
-    public function createQuestionBank(array $data, $owner)
+    public function createQuestionBank(
+        string|int|null $id = null, 
+        array $data, $owner
+    )
     {
-        return QuestionBank::create([
+        return QuestionBank::query()
+        ->updateOrCreate(
+            [
+                'id' => $id,
+            ],
+            [
             'name' => $data['name'],
             'slug' => str($data['name'])->slug()->value(),
             'description' => $data['description'] ?? null,
             'owner_id' => $owner->id,
             'owner_type' => get_class($owner),
-        ]);
+            ]
+        );
     }
 
     public function addQuestionToBank(QuestionBank $bank, array $questionData)
@@ -26,7 +35,7 @@ class QuestionBankService
             'points' => $questionData['points'] ?? 1,
             'subject_id' => $questionData['subject_id'] ?? null,
             'academic_level_id' => $questionData['academic_level_id'] ?? null,
-            'year_id' => $questionData['year_id'] ?? Year::current()?->id,
+            'year_id' => $questionData['year_id'],
             'difficulty_level' => $questionData['difficulty_level'] ?? null,
             'topic' => $questionData['topic'] ?? null,
         ]);

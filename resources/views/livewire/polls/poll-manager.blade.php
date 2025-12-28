@@ -10,31 +10,31 @@
     @if($showPollForm)
         <div class="poll-form">
             <h3>Create New Poll</h3>
-            
+
             <div class="form-group">
                 <label>Poll Title</label>
                 <input type="text" wire:model="newPoll.title" required>
             </div>
-            
+
             <div class="form-group">
                 <label>Description</label>
                 <textarea wire:model="newPoll.description"></textarea>
             </div>
-            
+
             <div class="form-group">
                 <label>
                     <input type="checkbox" wire:model="newPoll.is_anonymous">
                     Anonymous Responses
                 </label>
             </div>
-            
+
             <div class="form-group">
                 <label>
                     <input type="checkbox" wire:model="newPoll.is_active">
                     Active
                 </label>
             </div>
-            
+
             <div class="form-actions">
                 <button wire:click="createPoll" class="btn-submit">Create Poll</button>
             </div>
@@ -46,13 +46,13 @@
             <div class="poll-header">
                 <h3>{{ $selectedPoll->title }}</h3>
                 <p>{{ $selectedPoll->description }}</p>
-                
+
                 <div class="poll-meta">
                     <span>Status: {{ $selectedPoll->is_active ? 'Active' : 'Inactive' }}</span>
                     <span>Responses: {{ $selectedPoll->responses->count() }}</span>
                     <span>Type: {{ $selectedPoll->is_anonymous ? 'Anonymous' : 'Identified' }}</span>
                 </div>
-                
+
                 <div class="poll-actions">
                     <button wire:click="$toggle('showQuestionForm')" class="btn-primary">
                         {{ $showQuestionForm ? 'Cancel' : '+ Add Question' }}
@@ -62,61 +62,72 @@
                     </button>
                 </div>
             </div>
-            
+
             @if($showQuestionForm)
                 <div class="question-form">
                     <h4>Add New Question</h4>
-                    
+
                     <div class="form-group">
                         <label>Question Text</label>
                         <textarea wire:model="newQuestion.question_text" required></textarea>
                     </div>
-                    
+
+                    <div class="form-group">
+                        <label>Question bank</label>
+                        <select wire:model="newQuestion.question_bank_id">
+                            <option value="0">select</option>
+                            @forelse ($this->questionBanks as $bank)
+                            <option value="{{$bank->id}}">{{$bank->name}}</option>
+                            @empty
+
+                            @endforelse
+                        </select>
+                    </div>
+
                     <div class="form-group">
                         <label>Question Type</label>
                         <select wire:model="newQuestion.question_type_id">
-                            <option value="{{ QuestionType::MULTIPLE_CHOICE->value }}">Multiple Choice</option>
-                            <option value="{{ QuestionType::TRUE_FALSE->value }}">True/False</option>
-                            <option value="{{ QuestionType::SHORT_ANSWER->value }}">Short Answer</option>
-                            <option value="{{ QuestionType::RATING_SCALE->value }}">Rating Scale</option>
+                            @forelse ($this->questionTypes as $type)
+                            <option value="{{ $type->id }}">{{ $type->name }}</option>
+                            @empty
+
+                            @endforelse
                         </select>
                     </div>
-                    
+
                     @if(in_array($this->newQuestion['question_type_id'], [
-                        QuestionType::MULTIPLE_CHOICE->value,
-                        QuestionType::TRUE_FALSE->value,
-                        QuestionType::RATING_SCALE->value
+                        $this->questionTypes->pluck('id')
                     ]))
                         <div class="form-group">
                             <label>Options</label>
                             <div class="options-list">
                                 @foreach($newQuestion['options'] as $index => $option)
                                     <div class="option-item">
-                                        <input type="text" 
-                                            wire:model="newQuestion.options.{{ $index }}.text" 
+                                        <input type="text"
+                                            wire:model="newQuestion.options.{{ $index }}.text"
                                             placeholder="Option text">
-                                        <button type="button" 
+                                        <button type="button"
                                             wire:click="removeOption({{ $index }})">×</button>
                                     </div>
                                 @endforeach
-                                <button type="button" 
-                                    wire:click="addOption" 
+                                <button type="button"
+                                    wire:click="addOption"
                                     class="btn-add-option">
                                     + Add Option
                                 </button>
                             </div>
                         </div>
                     @endif
-                    
+
                     <div class="form-actions">
                         <button wire:click="addQuestion" class="btn-submit">Add Question</button>
                     </div>
                 </div>
             @endif
-            
+
             <div class="questions-list">
                 <h4>Poll Questions</h4>
-                
+
                 @if($selectedPoll->questions->isEmpty())
                     <p>No questions added yet.</p>
                 @else
@@ -125,13 +136,13 @@
                             <div class="question-header">
                                 <h5>{{ $question->question_text }}</h5>
                                 <span class="question-type">
-                                    {{ QuestionType::from($question->question_type_id)->label() }}
+                                    {{ $question->questionType?->name}}
                                 </span>
                                 <button wire:click="deleteQuestion({{ $question->id }})" class="btn-danger">
                                     Delete
                                 </button>
                             </div>
-                            
+
                             @if($question->options->isNotEmpty())
                                 <div class="options-list">
                                     @foreach($question->options as $option)

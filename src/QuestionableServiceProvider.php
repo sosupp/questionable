@@ -37,6 +37,7 @@ class QuestionableServiceProvider extends ServiceProvider
             __DIR__.'/../config/questionable.php' => config_path('questionable.php'),
             __DIR__.'/../resources/views' => resource_path('views/vendor/questionable'),
             __DIR__.'/../resources/assets' => public_path('vendor/questionable'),
+            __DIR__.'/../database/migrations' => database_path('migrations'),
         ], 'questionable');
 
         Relation::morphMap([

@@ -17,7 +17,7 @@ return new class extends Migration
                 $table->string('name');
                 $table->string('slug')->unique()->nullable();
                 $table->text('description')->nullable();
-                $table->morphs('owner'); // Can be owned by users, teams, etc.
+                $table->nullableMorphs('owner'); // Can be owned by users, teams, etc.
                 $table->softDeletes();
                 $table->timestamps();
             });
