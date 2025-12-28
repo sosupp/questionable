@@ -11,6 +11,8 @@ use Sosupp\Questionable\Livewire\Exams\ExamManager;
 use Sosupp\Questionable\Livewire\Polls\PollManager;
 use Sosupp\Questionable\Livewire\Quizzes\QuizTaker;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Sosupp\Questionable\Console\Install;
+use Sosupp\Questionable\Console\Setup;
 use Sosupp\Questionable\Livewire\QuestionBankManager;
 use Sosupp\Questionable\Livewire\Quizzes\QuizManager;
 use Sosupp\Questionable\Models\GlobalQuiz;
@@ -33,12 +35,17 @@ class QuestionableServiceProvider extends ServiceProvider
         Livewire::component('questionable::exam-manager', ExamManager::class);
         Livewire::component('questionable::exam-taker', ExamTaker::class);
         
-        $this->publishes([
-            __DIR__.'/../config/questionable.php' => config_path('questionable.php'),
-            __DIR__.'/../resources/views' => resource_path('views/vendor/questionable'),
-            __DIR__.'/../resources/assets' => public_path('vendor/questionable'),
-            __DIR__.'/../database/migrations' => database_path('migrations'),
-        ], 'questionable');
+        if ($this->app->runningInConsole()){
+            $this->publishes([
+                __DIR__.'/../config/questionable.php' => config_path('questionable.php'),
+                __DIR__.'/../resources/views' => resource_path('views/vendor/questionable'),
+                __DIR__.'/../resources/assets' => public_path('vendor/questionable'),
+                __DIR__.'/../database/migrations' => database_path('migrations'),
+            ], 'questionable');
+
+            $this->customCommands();
+        }
+
 
         Relation::morphMap([
             'global' => GlobalQuiz::class,
@@ -54,6 +61,16 @@ class QuestionableServiceProvider extends ServiceProvider
         $this->app->bind('questionable', function() {
             return new Questionables;
         });
+    }
+
+    protected function customCommands()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Setup::class,
+                Install::class,
+            ]);
+        }
     }
 
 }

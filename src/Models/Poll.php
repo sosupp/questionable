@@ -2,12 +2,14 @@
 
 namespace Sosupp\Questionable\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Sosupp\SlimDashboard\Concerns\Filters\CommonScopes;
 
 class Poll extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes, CommonScopes;
 
     protected $fillable = [
         'year_id',

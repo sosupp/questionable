@@ -16,15 +16,17 @@
   },
   "authors": [
     {
-      "name": "Prosper Sosu"
+      "name": "Prosper Sosu",
+      "email": "prospersosu@gmail.com",
+      "role": "Developer"
     }
   ],
   "require": {
     "php": "^7.4|^8.0|^8.1|^8.2|^8.3",
     "illuminate/support": "^10.0|^11.0|^12.0",
-    "intervention/image": "^2.7",
+    "intervention/image": "^2.7|^3.0",
     "livewire/livewire": "^2.0|^3.0",
-    "sosupp/slim-dashboard": "^1.31"
+    "sosupp/slim-dashboard": "^1.40"
   },
   "require-dev": {
     "orchestra/canvas": "^8.11",
