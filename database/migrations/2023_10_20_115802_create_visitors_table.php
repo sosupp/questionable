@@ -11,18 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('visitors', function (Blueprint $table) {
-            $table->id();
-            $table->string('cookie');
-            $table->string('device')->nullable();
-            $table->string('ip_address', 45)->nullable();
-            $table->text('browser')->nullable();
-            $table->text('user_agent')->nullable();
-            $table->mediumText('request')->nullable();
-            $table->mediumText('url')->nullable();
-            $table->mediumText('referer')->nullable();
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('visitors')){
+            Schema::create('visitors', function (Blueprint $table) {
+                $table->id();
+                $table->string('cookie');
+                $table->string('device')->nullable();
+                $table->string('ip_address', 45)->nullable();
+                $table->text('browser')->nullable();
+                $table->text('user_agent')->nullable();
+                $table->mediumText('request')->nullable();
+                $table->mediumText('url')->nullable();
+                $table->mediumText('referer')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**
